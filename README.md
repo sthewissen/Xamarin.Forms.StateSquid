@@ -1,7 +1,7 @@
 <img src="https://github.com/sthewissen/Xamarin.Forms.StateSquid/blob/master/images/icon.png" width="150px" />
 
 # Xamarin.Forms.StateSquid
-A collection of attached properties that let you specify state views for any of your existing layouts.
+A collection of attached properties that let you specify state views for any of your existing layouts. This package replaces my previous EasyLoading package. Updates to that package will not be made anymore.
 
 [![Build status](https://sthewissen.visualstudio.com/StateSquid/_apis/build/status/StateSquid-CI)]() ![](https://img.shields.io/nuget/vpre/Xamarin.Forms.StateSquid.svg)
 
