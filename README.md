@@ -59,11 +59,7 @@ Your imagination is the only limit to what you can do. You can use this control 
 
 | Property | What it does | Extra info |
 | ------ | ------ | ------ |
-| `State` | Defines the current state of the layout and which template to show. | ```Loading
-Saving
-Success
-Error
-Empty
-None```|
+| `State` | Defines the current state of the layout and which template to show. | `Loading`, `Saving`, `Success`, `Error`, `Empty`, 
+`None`|
 | `LoadingTemplate` | A data template that contains what is shown when loading. | A ```StateDataTemplate``` object. |
 | `RepeatCount` | Repeats the specific `StateDataTemplate` by a given amount. | Ideal to use to show a list of multiple items for e.g. a skeleton loader. |
