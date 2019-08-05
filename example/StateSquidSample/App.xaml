@@ -3,6 +3,29 @@
              xmlns:state="clr-namespace:Xamarin.Forms.StateSquid;assembly=Xamarin.Forms.StateSquid"
              x:Class="StateSquidSample.App">
     <Application.Resources>
+      <ResourceDictionary>
         <state:StateToBooleanConverter x:Key="StateToBooleanConverter" />
+        <OnPlatform x:TypeArguments="x:String" x:Key="PoppinsBold">
+          <On Platform="iOS" Value="Poppins-Bold"/>
+          <On Platform="Android" Value="Poppins-Bold.ttf#Bold"/>
+        </OnPlatform>
+        <OnPlatform x:TypeArguments="x:String" x:Key="PoppinsRegular">
+          <On Platform="iOS" Value="Poppins-Regular"/>
+          <On Platform="Android" Value="Poppins-Regular.ttf#Regular"/>
+        </OnPlatform>
+
+        <Style TargetType="Label">
+            <Setter Property="FontFamily" Value="{StaticResource PoppinsRegular}" />
+        </Style>
+
+        <Style TargetType="Button">
+            <Setter Property="FontFamily" Value="{StaticResource PoppinsRegular}" />
+        </Style>
+
+        <Style x:Key="TitleLabel" TargetType="Label">
+            <Setter Property="FontFamily" Value="{StaticResource PoppinsBold}" />
+            <Setter Property="FontSize" Value="18" />
+        </Style>
+      </ResourceDictionary>
     </Application.Resources>
 </Application>

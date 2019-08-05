@@ -33,5 +33,11 @@
 	<string>EasyLoadingSample</string>
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/AppIcon.appiconset</string>
+
+  <key>UIAppFonts</key>
+  <array>
+    <string>Poppins-Regular.ttf</string>
+      <string>Poppins-Bold.ttf</string>
+</array>
 </dict>
 </plist>
