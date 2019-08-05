@@ -4,8 +4,8 @@
   	<TargetFrameworks>netstandard2.0;Xamarin.iOS10;MonoAndroid81;MonoAndroid90</TargetFrameworks>
     
     <!--Assembly and Namespace info -->
-    <AssemblyName>Xamarin.Forms.EasyLoading</AssemblyName>
-    <RootNamespace>Xamarin.Forms.EasyLoading</RootNamespace>
+    <AssemblyName>Xamarin.Forms.StateSquid</AssemblyName>
+    <RootNamespace>Xamarin.Forms.StateSquid</RootNamespace>
     
     <Product>$(AssemblyName) ($(TargetFramework))</Product>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
@@ -21,15 +21,15 @@
 
     <LangVersion>latest</LangVersion>
 
-    <PackageLicenseUrl>https://github.com/sthewissen/Xamarin.Forms.EasyLoading/blob/master/LICENSE</PackageLicenseUrl>
-    <PackageProjectUrl>https://github.com/sthewissen/Xamarin.Forms.EasyLoading</PackageProjectUrl>
-    <PackageIconUrl>https://raw.githubusercontent.com/sthewissen/Xamarin.Forms.EasyLoading/master/images/icon.png</PackageIconUrl>
-    <RepositoryUrl>https://github.com/sthewissen/Xamarin.Forms.EasyLoading</RepositoryUrl>
-    <PackageTags>xamarin, ios, android, xamarin.forms, control, loading, layout, skeleton, loader, view</PackageTags>
+    <PackageLicenseUrl>https://github.com/sthewissen/Xamarin.Forms.StateSquid/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/sthewissen/Xamarin.Forms.StateSquid</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/sthewissen/Xamarin.Forms.StateSquid/master/images/icon.png</PackageIconUrl>
+    <RepositoryUrl>https://github.com/sthewissen/Xamarin.Forms.StateSquid</RepositoryUrl>
+    <PackageTags>xamarin, ios, android, xamarin.forms, control, loading, layout, skeleton, loader, view, empty, saving, error, state</PackageTags>
 
-    <Title>EasyLoading for Xamarin.Forms</Title>
-    <Summary>A collection of attached properties that let you specify a loading state view for any of your existing layouts.</Summary>
-    <Description>A collection of attached properties that let you specify a loading state view for any of your existing layouts.</Description>
+    <Title>StateSquid for Xamarin.Forms</Title>
+    <Summary>A collection of attached properties that let you specify different state views for any of your existing layouts.</Summary>
+    <Description>A collection of attached properties that let you specify different state views for any of your existing layouts.</Description>
 
     <Owners>Steven Thewissen</Owners>
     <Authors>Steven Thewissen</Authors>

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ContentPage Title="Hello StateSquid!" NavigationPage.BackButtonTitle="" xmlns:state="clr-namespace:Xamarin.Forms.StateSquid" xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
-             ios:Page.UseSafeArea="true" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:StateSquidSample" x:Class="StateSquidSample.Pages.MainPage">
+             ios:Page.UseSafeArea="true" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="StateSquidSample.Pages.MainPage">
     <Grid>
         <!--<ll:StateLayout.LoadingTemplate>
             <DataTemplate>
@@ -27,7 +27,9 @@
                 <StackLayout Padding="10" state:StateLayout.State="{Binding CurrentState}" BackgroundColor="#f0f1f2">
                     <state:StateLayout.EmptyTemplate>
                         <state:StateDataTemplate>
-                            <Label Text="This is the empty state. Nothing in here!" VerticalOptions="Center" VerticalTextAlignment="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center" />
+                            <DataTemplate>
+                                <Label Text="This is the empty state. Nothing in here!" VerticalOptions="Center" VerticalTextAlignment="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center" />
+                            </DataTemplate>
                         </state:StateDataTemplate>
                     </state:StateLayout.EmptyTemplate>
                     <state:StateLayout.LoadingTemplate>
