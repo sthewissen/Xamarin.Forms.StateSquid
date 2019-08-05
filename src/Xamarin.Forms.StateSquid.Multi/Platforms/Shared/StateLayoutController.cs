@@ -59,42 +59,64 @@ namespace Xamarin.Forms.StateSquid
                     _originalContent.Add(item);
             }
 
-            _previousState = state;
-
-            // Add the loading template.
-            layout.Children.Clear();
-
-            var repeatCount = GetRepeatCount(state);
-
-            if (layout is Grid)
+            if (HasTemplateForState(state))
             {
-                layout.Children.Add(new StackLayout());
-                _layoutIsGrid = true;
-            }
-            for (int i = 0; i < repeatCount; i++)
-            {
-                if (_layoutIsGrid)
+                _previousState = state;
+
+                // Add the loading template.
+                layout.Children.Clear();
+
+                var repeatCount = GetRepeatCount(state);
+
+                if (layout is Grid)
                 {
-                    if (layout.Children[0] is StackLayout stack)
+                    layout.Children.Add(new StackLayout());
+                    _layoutIsGrid = true;
+                }
+                for (int i = 0; i < repeatCount; i++)
+                {
+                    if (_layoutIsGrid)
+                    {
+                        if (layout.Children[0] is StackLayout stack)
+                        {
+                            var view = CreateItemView(layout, state);
+
+                            if (view != null)
+                            {
+                                stack.Children.Add(view);
+                            }
+                        }
+                    }
+                    else
                     {
                         var view = CreateItemView(layout, state);
 
                         if (view != null)
                         {
-                            stack.Children.Add(view);
+                            layout.Children.Add(view);
                         }
                     }
                 }
-                else
-                {
-                    var view = CreateItemView(layout, state);
-
-                    if (view != null)
-                    {
-                        layout.Children.Add(view);
-                    }
-                }
             }
+        }
+
+        private bool HasTemplateForState(State state)
+        {
+            switch (state)
+            {
+                case State.Loading:
+                    return LoadingTemplate != null;
+                case State.Saving:
+                    return SavingTemplate != null;
+                case State.Success:
+                    return SuccessTemplate != null;
+                case State.Error:
+                    return ErrorTemplate != null;
+                case State.Empty:
+                    return EmptyTemplate != null;
+            }
+
+            return false;
         }
 
         private int GetRepeatCount(State state)
