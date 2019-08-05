@@ -46,12 +46,12 @@ Install this package into your shared project. There is no need to install it in
 
 The `State` property supports one of the following values:
 
-- Loading
-- Saving
-- Success
-- Error
-- Empty
-- None (this will show the default view).
+- `Loading`
+- `Saving`
+- `Success`
+- `Error`
+- `Empty`
+- `None` (this will show the default view).
 
 ## What can I do with it?
 
