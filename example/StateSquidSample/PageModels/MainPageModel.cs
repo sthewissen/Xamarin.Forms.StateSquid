@@ -8,6 +8,7 @@ namespace StateSquidSample.PageModels
 {
     public class MainPageModel : FreshMvvm.FreshBasePageModel
     {
+        public State MainState { get; set; }
         public State CurrentState { get; set; }
         public State SkeletonState { get; set; }
 
@@ -21,9 +22,9 @@ namespace StateSquidSample.PageModels
         {
             FullscreenLoadingCommand = new Command(async (x) =>
             {
-                CurrentState = State.Loading;
+                MainState = State.Loading;
                 await Task.Delay(2000);
-                CurrentState = State.None;
+                MainState = State.None;
             });
 
             SkeletonCommand = new Command(async (x) =>

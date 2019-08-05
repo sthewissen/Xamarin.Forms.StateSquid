@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ContentPage NavigationPage.BackButtonTitle="" NavigationPage.HasNavigationBar="False" xmlns:state="clr-namespace:Xamarin.Forms.StateSquid;assembly=Xamarin.Forms.StateSquid" xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
              ios:Page.UseSafeArea="true" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="StateSquidSample.Pages.MainPage">
-    <Grid state:StateLayout.State="{Binding CurrentState}">
+    <Grid state:StateLayout.State="{Binding MainState}">
         <state:StateLayout.LoadingTemplate>
             <state:StateDataTemplate>
                 <DataTemplate>
                     <Grid BackgroundColor="White">
                         <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
-                            <ActivityIndicator Color="#1abc9c" IsRunning="{Binding CurrentState, Converter={StaticResource StateToBooleanConverter}, ConverterParameter={x:Static state:State.Loading}}" />
+                            <ActivityIndicator Color="#1abc9c" IsRunning="{Binding MainState, Converter={StaticResource StateToBooleanConverter}, ConverterParameter={x:Static state:State.Loading}}" />
                             <Label Text="Loading..." HorizontalOptions="Center" />
                         </StackLayout>
                     </Grid>
@@ -16,8 +16,7 @@
         </state:StateLayout.LoadingTemplate>
         <ScrollView>
             <StackLayout Spacing="0" Padding="40,30,40,40">
-                <Label Text="Hello StateSquid!" Style="{StaticResource TitleLabel}" FontSize="22" HorizontalOptions="Center" HorizontalTextAlignment="Center" />
-                
+                <Label Text="Hello StateSquid!" Style="{StaticResource TitleLabel}" FontSize="22" HorizontalOptions="Center" HorizontalTextAlignment="Center" />                
                 <Image Source="squid.png" HorizontalOptions="Center" WidthRequest="200" Margin="0" />
           
                 <!--Intro text-->
@@ -36,6 +35,16 @@
                             </DataTemplate>
                         </state:StateDataTemplate>
                     </state:StateLayout.EmptyTemplate>
+                    <state:StateLayout.SavingTemplate>
+                        <state:StateDataTemplate>
+                            <DataTemplate>
+                                <StackLayout>
+                                    <ActivityIndicator IsRunning="{Binding CurrentState, Converter={StaticResource StateToBooleanConverter}, ConverterParameter={x:Static state:State.Saving}}" Color="Fuchsia" />
+                                    <Label Text="Saving the world!" VerticalOptions="Center" VerticalTextAlignment="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center"  />
+                                </StackLayout>
+                            </DataTemplate>
+                        </state:StateDataTemplate>
+                    </state:StateLayout.SavingTemplate>
                     <state:StateLayout.LoadingTemplate>
                         <state:StateDataTemplate>
                             <DataTemplate>
