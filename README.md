@@ -1,15 +1,15 @@
+⚠ This package replaces my previous [EasyLoading package](https://github.com/sthewissen/Xamarin.Forms.EasyLoading). Updates to that package will not be made anymore. ⚠
+
 <img src="https://github.com/sthewissen/Xamarin.Forms.StateSquid/blob/master/images/icon.png" width="150px" />
 
 # Xamarin.Forms.StateSquid
-A collection of attached properties that let you specify state views for any of your existing layouts. This package replaces my previous EasyLoading package. Updates to that package will not be made anymore.
+A collection of attached properties that let you specify state views for any of your existing layouts.
 
 [![Build status](https://sthewissen.visualstudio.com/StateSquid/_apis/build/status/StateSquid-CI)]() ![](https://img.shields.io/nuget/vpre/Xamarin.Forms.StateSquid.svg)
 
 ## Why StateSquid?
 
 Displaying items when your app is in a specific state is a common pattern throughout any mobile app. People create loading views to overlay on an entire screen or maybe just a subsection of your screen needs an individual loader. When there's no data to display we create empty state views or when something goes wrong we need to build an error state view. By implementing the `StateLayout` bindable properties you can turn any layout element like a `Grid` or `StackLayout` into an individual state-aware element! StateSquid will take care of when to display which view.
-
-<img src="https://raw.githubusercontent.com/sthewissen/Xamarin.Forms.StateSquid/master/images/sample.gif" />
 
 ## How to use it?
 
