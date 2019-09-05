@@ -2,13 +2,12 @@
 
 namespace Xamarin.Forms.StateSquid
 {
-    [ContentProperty(nameof(Template))]
-    public class StateDataTemplate
+    public class StateDataTemplate : DataTemplate
     {
         private int repeatCount = 1;
 
-        public DataTemplate Template { get; set; }
-
+        public State State { get; set; }
+        public string CustomState { get; set; }
         public int RepeatCount { get => repeatCount; set => repeatCount = value; }
     }
 }

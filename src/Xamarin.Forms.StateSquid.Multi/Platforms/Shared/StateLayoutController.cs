@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Xamarin.Forms.StateSquid
 {
@@ -10,11 +11,7 @@ namespace Xamarin.Forms.StateSquid
         private IList<View> _originalContent;
         private State _previousState = State.None;
 
-        public StateDataTemplate LoadingTemplate { get; set; }
-        public StateDataTemplate SavingTemplate { get; set; }
-        public StateDataTemplate EmptyTemplate { get; set; }
-        public StateDataTemplate ErrorTemplate { get; set; }
-        public StateDataTemplate SuccessTemplate { get; set; }
+        public IList<StateDataTemplate> StateTemplates { get; set; }
 
         public StateLayoutController(Layout<View> layout)
         {
@@ -41,6 +38,10 @@ namespace Xamarin.Forms.StateSquid
             }
         }
 
+        public void SwitchToTemplate(string customState)
+        {
+        }
+
         public void SwitchToTemplate(State state)
         {
             Layout<View> layout;
@@ -59,7 +60,7 @@ namespace Xamarin.Forms.StateSquid
                     _originalContent.Add(item);
             }
 
-            if (HasTemplateForState(state))
+            if (HasTemplateForState(state, null))
             {
                 _previousState = state;
 
@@ -79,7 +80,7 @@ namespace Xamarin.Forms.StateSquid
                     {
                         if (layout.Children[0] is StackLayout stack)
                         {
-                            var view = CreateItemView(layout, state);
+                            var view = CreateItemView(layout, state, null);
 
                             if (view != null)
                             {
@@ -89,7 +90,7 @@ namespace Xamarin.Forms.StateSquid
                     }
                     else
                     {
-                        var view = CreateItemView(layout, state);
+                        var view = CreateItemView(layout, state, null);
 
                         if (view != null)
                         {
@@ -100,41 +101,21 @@ namespace Xamarin.Forms.StateSquid
             }
         }
 
-        private bool HasTemplateForState(State state)
+        private bool HasTemplateForState(State state, string customState)
         {
-            switch (state)
-            {
-                case State.Loading:
-                    return LoadingTemplate != null;
-                case State.Saving:
-                    return SavingTemplate != null;
-                case State.Success:
-                    return SuccessTemplate != null;
-                case State.Error:
-                    return ErrorTemplate != null;
-                case State.Empty:
-                    return EmptyTemplate != null;
-            }
+            var template = StateTemplates.FirstOrDefault(x => x.State == state ||
+                            (state == State.Custom && x.CustomState == customState));
 
-            return false;
+            return template != null;
         }
 
         private int GetRepeatCount(State state)
         {
-            switch (state)
+            var template = StateTemplates.FirstOrDefault(x => x.State == state);
+
+            if (template != null)
             {
-                case State.Loading:
-                    return LoadingTemplate != null ? LoadingTemplate.RepeatCount : 1;
-                case State.Saving:
-                    return SavingTemplate != null ? SavingTemplate.RepeatCount : 1;
-                case State.Success:
-                    return SuccessTemplate != null ? SuccessTemplate.RepeatCount : 1;
-                case State.Error:
-                    return ErrorTemplate != null ? ErrorTemplate.RepeatCount : 1;
-                case State.Empty:
-                    return EmptyTemplate != null ? EmptyTemplate.RepeatCount : 1;
-                case State.None:
-                    break;
+                return template.RepeatCount;
             }
 
             return 1;
@@ -144,22 +125,14 @@ namespace Xamarin.Forms.StateSquid
         /// Expand the LoadingDataTemplate or use the template selector.
         /// </summary>
         /// <returns>The item view.</returns>
-        View CreateItemView(Layout<View> layout, State state)
+        View CreateItemView(Layout<View> layout, State state, string customState)
         {
-            switch (state)
+            var template = StateTemplates.FirstOrDefault(x => x.State == state ||
+                            (state == State.Custom && x.CustomState == customState));
+
+            if(template != null)
             {
-                case State.Loading:
-                    return CreateItemView(LoadingTemplate, state);
-                case State.Saving:
-                    return CreateItemView(SavingTemplate, state);
-                case State.Success:
-                    return CreateItemView(SuccessTemplate, state);
-                case State.Error:
-                    return CreateItemView(ErrorTemplate, state);
-                case State.Empty:
-                    return CreateItemView(EmptyTemplate, state);
-                case State.None:
-                    break;
+                CreateItemView(template, state, customState);
             }
 
             return null;
@@ -169,17 +142,16 @@ namespace Xamarin.Forms.StateSquid
         /// Expand the Loading Data Template.
         /// </summary>
         /// <returns>The item view.</returns>
-        /// <param name="dataTemplate">Data template.</param>
-        View CreateItemView(StateDataTemplate dataTemplate, State state)
+        View CreateItemView(StateDataTemplate dataTemplate, State state, string customState)
         {
             if (dataTemplate != null)
             {
-                var view = (View)dataTemplate.Template.CreateContent();
+                var view = (View)dataTemplate.CreateContent();
                 return view;
             }
             else
             {
-                return new Label() { Text = $"[{state.ToString()}Template] not defined." };
+                return new Label() { Text = $"Template for {state.ToString()}{customState} not defined." };
             }
         }
     }

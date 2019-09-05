@@ -6,86 +6,71 @@ namespace Xamarin.Forms.StateSquid
 {
     public static class StateLayout
     {
-        public static readonly BindableProperty LoadingTemplateProperty = BindableProperty.CreateAttached("LoadingTemplate", typeof(StateDataTemplate), typeof(Layout<View>), default(StateDataTemplate), propertyChanged: (b, o, n) => { GetLayoutController(b).LoadingTemplate = (StateDataTemplate)n; });
-        public static readonly BindableProperty SavingTemplateProperty = BindableProperty.CreateAttached("SavingTemplate", typeof(StateDataTemplate), typeof(Layout<View>), default(StateDataTemplate), propertyChanged: (b, o, n) => { GetLayoutController(b).SavingTemplate = (StateDataTemplate)n; });
-        public static readonly BindableProperty EmptyTemplateProperty = BindableProperty.CreateAttached("EmptyTemplate", typeof(StateDataTemplate), typeof(Layout<View>), default(StateDataTemplate), propertyChanged: (b, o, n) => { GetLayoutController(b).EmptyTemplate = (StateDataTemplate)n; });
-        public static readonly BindableProperty ErrorTemplateProperty = BindableProperty.CreateAttached("ErrorTemplate", typeof(StateDataTemplate), typeof(Layout<View>), default(StateDataTemplate), propertyChanged: (b, o, n) => { GetLayoutController(b).ErrorTemplate = (StateDataTemplate)n; });
-        public static readonly BindableProperty SuccessTemplateProperty = BindableProperty.CreateAttached("SuccessTemplate", typeof(StateDataTemplate), typeof(Layout<View>), default(StateDataTemplate), propertyChanged: (b, o, n) => { GetLayoutController(b).SuccessTemplate = (StateDataTemplate)n; });
+        internal static readonly BindablePropertyKey StateTemplatesPropertyKey = BindableProperty.CreateReadOnly("StateTemplates", typeof(IList<StateDataTemplate>), typeof(Layout<View>), default(IList<StateDataTemplate>),
+            defaultValueCreator: bindable =>
+            {
+                var collection = new AttachedCollection<StateDataTemplate>();
+                collection.AttachTo(bindable);
+                return collection;
+            });
 
-        public static readonly BindableProperty StateProperty = BindableProperty.CreateAttached(nameof(State), typeof(State), typeof(Layout<View>), State.None, propertyChanged: (b, o, n) => OnStateChanged(b, (State)o, (State)n));
+        public static readonly BindableProperty StateTemplatesProperty = StateTemplatesPropertyKey.BindableProperty;
 
         static readonly BindableProperty LayoutControllerProperty = BindableProperty.CreateAttached("LayoutController", typeof(StateLayoutController), typeof(Layout<View>), default(StateLayoutController),
                  defaultValueCreator: (b) => new StateLayoutController((Layout<View>)b),
                  propertyChanged: (b, o, n) => OnControllerChanged(b, (StateLayoutController)o, (StateLayoutController)n));
 
-        public static void SetState(BindableObject b, State value)
+        public static readonly BindableProperty CurrentStateProperty = BindableProperty.CreateAttached("CurrentState", typeof(State), typeof(Layout<View>), State.None, propertyChanged: (b, o, n) => OnCurrentStateChanged(b, (State)o, (State)n));
+        public static readonly BindableProperty CustomStateProperty = BindableProperty.CreateAttached("CustomState", typeof(string), typeof(Layout<View>), State.None, propertyChanged: (b, o, n) => OnCustomStateChanged(b, (string)o, (string)n));
+        
+        public static IList<StateDataTemplate> GetStateTemplates(BindableObject b)
         {
-            b.SetValue(StateProperty, value);
+           return (IList<StateDataTemplate>)b.GetValue(StateTemplatesProperty);
         }
 
-        public static State GetState(BindableObject b)
+        public static void SetCurrentState(BindableObject b, State value)
         {
-            return (State)b.GetValue(StateProperty);
+            b.SetValue(CurrentStateProperty, value);
         }
 
-        public static void SetLoadingTemplate(BindableObject b, DataTemplate value)
+        public static State GetCurrentState(BindableObject b)
         {
-            b.SetValue(LoadingTemplateProperty, value);
+            return (State)b.GetValue(CurrentStateProperty);
         }
 
-        public static StateDataTemplate GetLoadingTemplate(BindableObject b)
+        public static void SetCustomState(BindableObject b, State value)
         {
-            return (StateDataTemplate)b.GetValue(LoadingTemplateProperty);
+            b.SetValue(CustomStateProperty, value);
         }
 
-        public static void SetSavingTemplate(BindableObject b, DataTemplate value)
+        public static string GetCustomState(BindableObject b)
         {
-            b.SetValue(SavingTemplateProperty, value);
+            return (string)b.GetValue(CustomStateProperty);
         }
-
-        public static StateDataTemplate GetSavingTemplate(BindableObject b)
-        {
-            return (StateDataTemplate)b.GetValue(SavingTemplateProperty);
-        }
-
-        public static void SetEmptyTemplate(BindableObject b, DataTemplate value)
-        {
-            b.SetValue(EmptyTemplateProperty, value);
-        }
-
-        public static StateDataTemplate GetEmptyTemplate(BindableObject b)
-        {
-            return (StateDataTemplate)b.GetValue(EmptyTemplateProperty);
-        }
-
-        public static void SetErrorTemplate(BindableObject b, DataTemplate value)
-        {
-            b.SetValue(ErrorTemplateProperty, value);
-        }
-
-        public static StateDataTemplate GetErrorTemplate(BindableObject b)
-        {
-            return (StateDataTemplate)b.GetValue(ErrorTemplateProperty);
-        }
-
-        public static void SetSuccessTemplate(BindableObject b, DataTemplate value)
-        {
-            b.SetValue(SuccessTemplateProperty, value);
-        }
-
-        public static StateDataTemplate GetSuccessTemplate(BindableObject b)
-        {
-            return (StateDataTemplate)b.GetValue(SuccessTemplateProperty);
-        }
-
-        static void OnStateChanged(BindableObject bindable, State oldValue, State newValue)
+    
+        static void OnCurrentStateChanged(BindableObject bindable, State oldValue, State newValue)
         {
             // Swap out the current children for the Loading Template.
-            if (oldValue != newValue && newValue != State.None)
+            if (oldValue != newValue && newValue != State.None && newValue != State.Custom)
             {
                 GetLayoutController(bindable).SwitchToTemplate(newValue);
             }
             else if (oldValue != newValue && newValue == State.None)
+            {
+                GetLayoutController(bindable).SwitchToContent();
+            }
+        }
+
+        static void OnCustomStateChanged(BindableObject bindable, string oldValue, string newValue)
+        {
+            var state = GetCurrentState(bindable);
+
+            // Swap out the current children for the Loading Template.
+            if (oldValue != newValue && state == State.Custom)
+            {
+                GetLayoutController(bindable).SwitchToTemplate(newValue);
+            }
+            else if (oldValue != newValue && state == State.None)
             {
                 GetLayoutController(bindable).SwitchToContent();
             }
@@ -108,11 +93,7 @@ namespace Xamarin.Forms.StateSquid
                 return;
             }
 
-            newC.LoadingTemplate = GetLoadingTemplate(b);
-            newC.SavingTemplate = GetSavingTemplate(b);
-            newC.EmptyTemplate = GetEmptyTemplate(b);
-            newC.ErrorTemplate = GetErrorTemplate(b);
-            newC.SuccessTemplate = GetSuccessTemplate(b);
+            newC.StateTemplates = GetStateTemplates(b);
         }
     }
 }
