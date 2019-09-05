@@ -104,7 +104,7 @@ namespace Xamarin.Forms.StateSquid
         private bool HasTemplateForState(State state, string customState)
         {
             var template = StateTemplates.FirstOrDefault(x => x.State == state ||
-                            (state == State.Custom && x.CustomState == customState));
+                            (state == State.Custom && x.CustomStateKey == customState));
 
             return template != null;
         }
@@ -128,7 +128,7 @@ namespace Xamarin.Forms.StateSquid
         View CreateItemView(Layout<View> layout, State state, string customState)
         {
             var template = StateTemplates.FirstOrDefault(x => x.State == state ||
-                            (state == State.Custom && x.CustomState == customState));
+                            (state == State.Custom && x.CustomStateKey == customState));
 
             if(template != null)
             {

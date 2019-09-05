@@ -20,4 +20,24 @@
     <Folder Include="Pages\" />
     <Folder Include="PageModels\" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\src\Xamarin.Forms.StateSquid.Multi\Platforms\Shared\StateDataTemplate.cs">
+      <Link>StateDataTemplate.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Xamarin.Forms.StateSquid.Multi\Platforms\Shared\StateDataTemplateExtension.cs">
+      <Link>StateDataTemplateExtension.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Xamarin.Forms.StateSquid.Multi\Platforms\Shared\StateLayoutController.cs">
+      <Link>StateLayoutController.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Xamarin.Forms.StateSquid.Multi\Platforms\Shared\StateLayout.cs">
+      <Link>StateLayout.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Xamarin.Forms.StateSquid.Multi\Platforms\Shared\StateToBooleanConverter.cs">
+      <Link>StateToBooleanConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\Xamarin.Forms.StateSquid.Multi\Platforms\Shared\State.cs">
+      <Link>State.cs</Link>
+    </Compile>
+  </ItemGroup>
 </Project>

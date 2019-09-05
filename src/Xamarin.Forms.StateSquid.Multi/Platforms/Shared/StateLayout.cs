@@ -9,8 +9,7 @@ namespace Xamarin.Forms.StateSquid
         internal static readonly BindablePropertyKey StateTemplatesPropertyKey = BindableProperty.CreateReadOnly("StateTemplates", typeof(IList<StateDataTemplate>), typeof(Layout<View>), default(IList<StateDataTemplate>),
             defaultValueCreator: bindable =>
             {
-                var collection = new AttachedCollection<StateDataTemplate>();
-                collection.AttachTo(bindable);
+                var collection = new List<StateDataTemplate>();
                 return collection;
             });
 
@@ -21,7 +20,7 @@ namespace Xamarin.Forms.StateSquid
                  propertyChanged: (b, o, n) => OnControllerChanged(b, (StateLayoutController)o, (StateLayoutController)n));
 
         public static readonly BindableProperty CurrentStateProperty = BindableProperty.CreateAttached("CurrentState", typeof(State), typeof(Layout<View>), State.None, propertyChanged: (b, o, n) => OnCurrentStateChanged(b, (State)o, (State)n));
-        public static readonly BindableProperty CustomStateProperty = BindableProperty.CreateAttached("CustomState", typeof(string), typeof(Layout<View>), State.None, propertyChanged: (b, o, n) => OnCustomStateChanged(b, (string)o, (string)n));
+        public static readonly BindableProperty CurrentCustomStateKeyProperty = BindableProperty.CreateAttached("CurrentCustomStateKey", typeof(string), typeof(Layout<View>), State.None, propertyChanged: (b, o, n) => OnCurrentCustomStateKeyChanged(b, (string)o, (string)n));
         
         public static IList<StateDataTemplate> GetStateTemplates(BindableObject b)
         {
@@ -38,14 +37,14 @@ namespace Xamarin.Forms.StateSquid
             return (State)b.GetValue(CurrentStateProperty);
         }
 
-        public static void SetCustomState(BindableObject b, State value)
+        public static void SetCurrentCustomStateKey(BindableObject b, State value)
         {
-            b.SetValue(CustomStateProperty, value);
+            b.SetValue(CurrentCustomStateKeyProperty, value);
         }
 
-        public static string GetCustomState(BindableObject b)
+        public static string GetCurrentCustomStateKey(BindableObject b)
         {
-            return (string)b.GetValue(CustomStateProperty);
+            return (string)b.GetValue(CurrentCustomStateKeyProperty);
         }
     
         static void OnCurrentStateChanged(BindableObject bindable, State oldValue, State newValue)
@@ -61,7 +60,7 @@ namespace Xamarin.Forms.StateSquid
             }
         }
 
-        static void OnCustomStateChanged(BindableObject bindable, string oldValue, string newValue)
+        static void OnCurrentCustomStateKeyChanged(BindableObject bindable, string oldValue, string newValue)
         {
             var state = GetCurrentState(bindable);
 
