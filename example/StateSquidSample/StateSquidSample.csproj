@@ -11,30 +11,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="4.1.0.618606" />
-    <PackageReference Include="Xamarin.Essentials" Version="1.2.0" />
+    <PackageReference Include="Xamarin.Forms" Version="4.2.0.778463" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.3.0" />
     <PackageReference Include="FreshMvvm" Version="3.0.0" />
-    <PackageReference Include="PropertyChanged.Fody" Version="3.0.1" />
+    <PackageReference Include="PropertyChanged.Fody" Version="3.1.3" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Pages\" />
     <Folder Include="PageModels\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="..\..\src\Xamarin.Forms.StateSquid.Multi\Platforms\Shared\StateView.cs">
-      <Link>StateView.cs</Link>
-    </Compile>
-    <Compile Include="..\..\src\Xamarin.Forms.StateSquid.Multi\Platforms\Shared\StateLayoutController.cs">
-      <Link>StateLayoutController.cs</Link>
-    </Compile>
-    <Compile Include="..\..\src\Xamarin.Forms.StateSquid.Multi\Platforms\Shared\StateLayout.cs">
-      <Link>StateLayout.cs</Link>
-    </Compile>
-    <Compile Include="..\..\src\Xamarin.Forms.StateSquid.Multi\Platforms\Shared\StateToBooleanConverter.cs">
-      <Link>StateToBooleanConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\..\src\Xamarin.Forms.StateSquid.Multi\Platforms\Shared\State.cs">
-      <Link>State.cs</Link>
-    </Compile>
   </ItemGroup>
 </Project>

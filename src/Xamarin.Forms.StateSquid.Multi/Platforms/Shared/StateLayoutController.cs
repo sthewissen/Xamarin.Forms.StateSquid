@@ -140,12 +140,16 @@ namespace Xamarin.Forms.StateSquid
 
             if (template != null)
             {
+                //var newView = new ContentView();
+                //newView.Content = template.Content;
+                //return newView;
+
+                // TODO: This only allows for a repeatcount of 1.
+                // Internally in Xamarin.Forms we cannot add the same element to Children multiple times.
                 return template.Content;
             }
-            else
-            {
-                return new Label() { Text = $"Template for {state.ToString()}{customState} not defined." };
-            }
+
+            return new Label() { Text = $"Template for {state.ToString()}{customState} not defined." };
         }
     }
 }
