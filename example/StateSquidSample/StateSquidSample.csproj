@@ -21,11 +21,8 @@
     <Folder Include="PageModels\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\src\Xamarin.Forms.StateSquid.Multi\Platforms\Shared\StateDataTemplate.cs">
-      <Link>StateDataTemplate.cs</Link>
-    </Compile>
-    <Compile Include="..\..\src\Xamarin.Forms.StateSquid.Multi\Platforms\Shared\StateDataTemplateExtension.cs">
-      <Link>StateDataTemplateExtension.cs</Link>
+    <Compile Include="..\..\src\Xamarin.Forms.StateSquid.Multi\Platforms\Shared\StateView.cs">
+      <Link>StateView.cs</Link>
     </Compile>
     <Compile Include="..\..\src\Xamarin.Forms.StateSquid.Multi\Platforms\Shared\StateLayoutController.cs">
       <Link>StateLayoutController.cs</Link>
