@@ -6,25 +6,24 @@ namespace Xamarin.Forms.StateSquid
 {
     public static class StateLayout
     {
-        internal static readonly BindablePropertyKey StateTemplatesPropertyKey = BindableProperty.CreateReadOnly("StateTemplates", typeof(IList<StateDataTemplate>), typeof(Layout<View>), default(IList<StateDataTemplate>),
+        internal static readonly BindablePropertyKey StateViewsPropertyKey = BindableProperty.CreateReadOnly("StateViews", typeof(IList<StateView>), typeof(Layout<View>), default(IList<StateView>),
             defaultValueCreator: bindable =>
             {
-                var collection = new List<StateDataTemplate>();
+                var collection = new List<StateView>();
                 return collection;
             });
 
-        public static readonly BindableProperty StateTemplatesProperty = StateTemplatesPropertyKey.BindableProperty;
+        public static readonly BindableProperty StateViewsProperty = StateViewsPropertyKey.BindableProperty;
 
         static readonly BindableProperty LayoutControllerProperty = BindableProperty.CreateAttached("LayoutController", typeof(StateLayoutController), typeof(Layout<View>), default(StateLayoutController),
-                 defaultValueCreator: (b) => new StateLayoutController((Layout<View>)b),
-                 propertyChanged: (b, o, n) => OnControllerChanged(b, (StateLayoutController)o, (StateLayoutController)n));
+                 defaultValueCreator: (b) => new StateLayoutController((Layout<View>)b) { StateViews = GetStateViews(b) });
 
-        public static readonly BindableProperty CurrentStateProperty = BindableProperty.CreateAttached("CurrentState", typeof(State), typeof(Layout<View>), State.None, propertyChanged: (b, o, n) => OnCurrentStateChanged(b, (State)o, (State)n));
-        public static readonly BindableProperty CurrentCustomStateKeyProperty = BindableProperty.CreateAttached("CurrentCustomStateKey", typeof(string), typeof(Layout<View>), State.None, propertyChanged: (b, o, n) => OnCurrentCustomStateKeyChanged(b, (string)o, (string)n));
+        public static readonly BindableProperty CurrentStateProperty = BindableProperty.CreateAttached("CurrentState", typeof(State), typeof(Layout<View>), default(State), propertyChanged: (b, o, n) => OnCurrentStateChanged(b, (State)o, (State)n));
+        public static readonly BindableProperty CurrentCustomStateKeyProperty = BindableProperty.CreateAttached("CurrentCustomStateKey", typeof(string), typeof(Layout<View>), default(string), propertyChanged: (b, o, n) => OnCurrentCustomStateKeyChanged(b, (string)o, (string)n));
         
-        public static IList<StateDataTemplate> GetStateTemplates(BindableObject b)
+        public static IList<StateView> GetStateViews(BindableObject b)
         {
-           return (IList<StateDataTemplate>)b.GetValue(StateTemplatesProperty);
+           return (IList<StateView>)b.GetValue(StateViewsProperty);
         }
 
         public static void SetCurrentState(BindableObject b, State value)
@@ -52,7 +51,7 @@ namespace Xamarin.Forms.StateSquid
             // Swap out the current children for the Loading Template.
             if (oldValue != newValue && newValue != State.None && newValue != State.Custom)
             {
-                GetLayoutController(bindable).SwitchToTemplate(newValue);
+                GetLayoutController(bindable).SwitchToTemplate(newValue, null);
             }
             else if (oldValue != newValue && newValue == State.None)
             {
@@ -78,21 +77,6 @@ namespace Xamarin.Forms.StateSquid
         static StateLayoutController GetLayoutController(BindableObject b)
         {
             return (StateLayoutController)b.GetValue(LayoutControllerProperty);
-        }
-
-        static void SetLayoutController(BindableObject b, StateLayoutController value)
-        {
-            b.SetValue(LayoutControllerProperty, value);
-        }
-
-        static void OnControllerChanged(BindableObject b, StateLayoutController oldC, StateLayoutController newC)
-        {
-            if (newC == null)
-            {
-                return;
-            }
-
-            newC.StateTemplates = GetStateTemplates(b);
         }
     }
 }

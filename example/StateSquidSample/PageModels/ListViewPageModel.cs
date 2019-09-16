@@ -3,21 +3,22 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
+using Xamarin.Forms.StateSquid;
 
 namespace StateSquidSample.PageModels
 {
     public class ListViewPageModel : FreshMvvm.FreshBasePageModel
     {  
         public ObservableCollection<Order> Orders { get; set; }
-        public bool IsLoading { get; set; }
+        public State CurrentState { get; set; }
         public ICommand ToggleLoadingCommand { get; set; }
 
         public ListViewPageModel()
         {
-            ToggleLoadingCommand = new Command(async (x) => { 
-                IsLoading = true;
+            ToggleLoadingCommand = new Command(async (x) => {
+                CurrentState = State.Loading;
                 await Task.Delay(2000);
-                IsLoading = false; 
+                CurrentState = State.None;
             });
 
             Orders = new ObservableCollection<Order>

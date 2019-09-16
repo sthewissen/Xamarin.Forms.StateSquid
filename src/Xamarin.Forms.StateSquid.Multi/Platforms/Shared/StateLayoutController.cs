@@ -11,7 +11,7 @@ namespace Xamarin.Forms.StateSquid
         private IList<View> _originalContent;
         private State _previousState = State.None;
 
-        public IList<StateDataTemplate> StateTemplates { get; set; }
+        public IList<StateView> StateViews { get; set; }
 
         public StateLayoutController(Layout<View> layout)
         {
@@ -40,9 +40,10 @@ namespace Xamarin.Forms.StateSquid
 
         public void SwitchToTemplate(string customState)
         {
+            SwitchToTemplate(State.Custom, customState);
         }
 
-        public void SwitchToTemplate(State state)
+        public void SwitchToTemplate(State state, string customState)
         {
             Layout<View> layout;
 
@@ -60,27 +61,37 @@ namespace Xamarin.Forms.StateSquid
                     _originalContent.Add(item);
             }
 
-            if (HasTemplateForState(state, null))
+            if (HasTemplateForState(state, customState))
             {
                 _previousState = state;
 
                 // Add the loading template.
                 layout.Children.Clear();
 
-                var repeatCount = GetRepeatCount(state);
+                var repeatCount = GetRepeatCount(state, customState);
 
-                if (layout is Grid)
+                if (layout is Grid grid)
                 {
-                    layout.Children.Add(new StackLayout());
+                    var s = new StackLayout();
+
+                    if(grid.RowDefinitions.Any())
+                        Grid.SetRowSpan(s, grid.RowDefinitions.Count);
+
+                    if(grid.ColumnDefinitions.Any())
+                        Grid.SetColumnSpan(s, grid.ColumnDefinitions.Count);
+
+                    layout.Children.Add(s);
+
                     _layoutIsGrid = true;
                 }
+
                 for (int i = 0; i < repeatCount; i++)
                 {
                     if (_layoutIsGrid)
                     {
                         if (layout.Children[0] is StackLayout stack)
                         {
-                            var view = CreateItemView(layout, state, null);
+                            var view = CreateItemView(state, customState);
 
                             if (view != null)
                             {
@@ -90,7 +101,7 @@ namespace Xamarin.Forms.StateSquid
                     }
                     else
                     {
-                        var view = CreateItemView(layout, state, null);
+                        var view = CreateItemView(state, customState);
 
                         if (view != null)
                         {
@@ -103,15 +114,16 @@ namespace Xamarin.Forms.StateSquid
 
         private bool HasTemplateForState(State state, string customState)
         {
-            var template = StateTemplates.FirstOrDefault(x => x.State == state ||
+            var template = StateViews.FirstOrDefault(x => (x.StateKey == state && state != State.Custom) ||
                             (state == State.Custom && x.CustomStateKey == customState));
 
             return template != null;
         }
 
-        private int GetRepeatCount(State state)
+        private int GetRepeatCount(State state, string customState)
         {
-            var template = StateTemplates.FirstOrDefault(x => x.State == state);
+            var template = StateViews.FirstOrDefault(x => (x.StateKey == state && state != State.Custom) ||
+                           (state == State.Custom && x.CustomStateKey == customState));
 
             if (template != null)
             {
@@ -121,33 +133,14 @@ namespace Xamarin.Forms.StateSquid
             return 1;
         }
 
-        /// <summary>
-        /// Expand the LoadingDataTemplate or use the template selector.
-        /// </summary>
-        /// <returns>The item view.</returns>
-        View CreateItemView(Layout<View> layout, State state, string customState)
+        View CreateItemView(State state, string customState)
         {
-            var template = StateTemplates.FirstOrDefault(x => x.State == state ||
+            var template = StateViews.FirstOrDefault(x => (x.StateKey == state && state != State.Custom) ||
                             (state == State.Custom && x.CustomStateKey == customState));
 
-            if(template != null)
+            if (template != null)
             {
-                CreateItemView(template, state, customState);
-            }
-
-            return null;
-        }
-
-        /// <summary>
-        /// Expand the Loading Data Template.
-        /// </summary>
-        /// <returns>The item view.</returns>
-        View CreateItemView(StateDataTemplate dataTemplate, State state, string customState)
-        {
-            if (dataTemplate != null)
-            {
-                var view = (View)dataTemplate.CreateContent();
-                return view;
+                return template.Content;
             }
             else
             {
