@@ -10,6 +10,7 @@ namespace StateSquidSample.PageModels
     {
         public State MainState { get; set; }
         public State CurrentState { get; set; }
+        public string CustomState { get; set; }
         public State SkeletonState { get; set; }
 
         public ICommand FullscreenLoadingCommand { get; set; }
@@ -51,6 +52,11 @@ namespace StateSquidSample.PageModels
             CurrentState = State.Error;
             await Task.Delay(3000);
             CurrentState = State.Empty;
+            await Task.Delay(3000);
+            CurrentState = State.Custom;
+            CustomState = "ThisIsCustomHi";
+            await Task.Delay(3000);
+            CustomState = "ThisIsCustomToo";
             await Task.Delay(3000);
             CurrentState = State.Success;
             await Task.Delay(3000);

@@ -7,6 +7,7 @@
         Saving,
         Success,
         Error,
-        Empty
+        Empty,
+        Custom
     }
 }
