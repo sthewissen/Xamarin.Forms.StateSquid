@@ -24,18 +24,18 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <BoxView Grid.Row="0" Grid.ColumnSpan="2" HeightRequest="20" BackgroundColor="#cccccc" WidthRequest="120" />
-                            <BoxView Grid.Row="1" Grid.ColumnSpan="3" HeightRequest="20" BackgroundColor="#cccccc" WidthRequest="200" />
+                            <state:SkeletonView CornerRadius="6" Grid.Row="0" Grid.ColumnSpan="2" HeightRequest="20" BackgroundColor="#cccccc" WidthRequest="120" />
+                            <state:SkeletonView CornerRadius="6" Grid.Row="1" Grid.ColumnSpan="3" HeightRequest="20" BackgroundColor="#cccccc" WidthRequest="200" />
                             <BoxView Grid.Row="2" Grid.ColumnSpan="3" HeightRequest="1" BackgroundColor="#cccccc" Margin="0,8" />
                             <Label Grid.Row="3" Grid.Column="0" HorizontalOptions="Center" Text="TOTAL ARTICLES" FontSize="10" TextColor="Gray" />
                             <Label Grid.Row="3" Grid.Column="1" HorizontalOptions="Center" Text="PRICE" FontSize="10" TextColor="Gray" />
                             <Label Grid.Row="3" Grid.Column="2" HorizontalOptions="Center" Text="BOXES" FontSize="10" TextColor="Gray" />
-                            <BoxView Grid.Row="4" Grid.Column="0" HeightRequest="20" BackgroundColor="#cccccc" HorizontalOptions="Fill" />
-                            <BoxView Grid.Row="4" Grid.Column="1" HeightRequest="20" BackgroundColor="#cccccc" HorizontalOptions="Fill" />
-                            <BoxView Grid.Row="4" Grid.Column="2" HeightRequest="20" BackgroundColor="#cccccc" HorizontalOptions="Fill" />
+                            <state:SkeletonView CornerRadius="6" Grid.Row="4" Grid.Column="0" HeightRequest="20" BackgroundColor="#cccccc" HorizontalOptions="Fill" />
+                            <state:SkeletonView CornerRadius="6" Grid.Row="4" Grid.Column="1" HeightRequest="20" BackgroundColor="#cccccc" HorizontalOptions="Fill" />
+                            <state:SkeletonView CornerRadius="6" Grid.Row="4" Grid.Column="2" HeightRequest="20" BackgroundColor="#cccccc" HorizontalOptions="Fill" />
                         </Grid>
                     </state:StateView>
-                 </state:StateLayout.StateViews>
+                </state:StateLayout.StateViews>
                 <ListView SeparatorVisibility="None" ItemsSource="{Binding Orders}" HasUnevenRows="true">
                     <ListView.ItemTemplate>
                         <DataTemplate>
