@@ -40,7 +40,11 @@
                             </StackLayout>
                         </state:StateView>
                         <state:StateView StateKey="Error" RepeatCount="4">
-                            <Label Text="Something went horribly wrong!" VerticalOptions="Center" VerticalTextAlignment="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center"  />
+                            <state:StateView.RepeatTemplate>
+                                <DataTemplate>
+                                    <Label Text="Something went horribly wrong!" VerticalOptions="Center" VerticalTextAlignment="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center"  />
+                                </DataTemplate>
+                            </state:StateView.RepeatTemplate>
                         </state:StateView>
                         <state:StateView StateKey="Custom" CustomStateKey="ThisIsCustomHi">
                             <Label Text="Hi, I'm a custom state!" VerticalOptions="Center" VerticalTextAlignment="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center"  />

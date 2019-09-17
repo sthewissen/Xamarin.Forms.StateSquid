@@ -97,10 +97,12 @@ namespace Xamarin.Forms.StateSquid
                 }
                 else
                 {
-                    // TODO: Somehow this doesn't repeat?
-                    // Internally in Xamarin.Forms we cannot add the same element to Children multiple times.
-                    // Even wrapping it in a new StateView doesn't do the trick though...
-                    var view = CreateItemView(state, customState);
+                    var template = GetRepeatTemplate(state, customState);
+                    var items = new List<int>();
+
+                    for (int i = 0; i < repeatCount; i++)
+                        items.Add(i);
+
                     var s = new StackLayout();
 
                     if (layout is Grid grid)
@@ -112,15 +114,8 @@ namespace Xamarin.Forms.StateSquid
                             Grid.SetColumnSpan(s, grid.ColumnDefinitions.Count);
                     }
 
-                    for (int i = 0; i < repeatCount; i++)
-                    {
-                        var stateView = new StateView
-                        {
-                            Content = (view as StateView).Content
-                        };
-
-                        s.Children.Add(stateView);
-                    }
+                    BindableLayout.SetItemTemplate(s, template);
+                    BindableLayout.SetItemsSource(s, items);
 
                     layout.Children.Add(s);
                 }
@@ -148,6 +143,19 @@ namespace Xamarin.Forms.StateSquid
             return 1;
         }
 
+        private DataTemplate GetRepeatTemplate(State state, string customState)
+        {
+            var template = StateViews.FirstOrDefault(x => (x.StateKey == state && state != State.Custom) ||
+                           (state == State.Custom && x.CustomStateKey == customState));
+
+            if (template != null)
+            {
+                return template.RepeatTemplate;
+            }
+
+            return null;
+        }
+
         View CreateItemView(State state, string customState)
         {
             var template = StateViews.FirstOrDefault(x => (x.StateKey == state && state != State.Custom) ||
@@ -155,6 +163,8 @@ namespace Xamarin.Forms.StateSquid
 
             if (template != null)
             {
+                // TODO: This only allows for a repeatcount of 1.
+                // Internally in Xamarin.Forms we cannot add the same element to Children multiple times.
                 return template;
             }
 
