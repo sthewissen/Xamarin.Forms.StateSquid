@@ -31,7 +31,6 @@ namespace Xamarin.Forms.StateSquid
 
             // Put the original content back in.
             layout.Children.Clear();
-
             foreach (var item in _originalContent)
             {
                 layout.Children.Add(item);
@@ -65,49 +64,65 @@ namespace Xamarin.Forms.StateSquid
             {
                 _previousState = state;
 
-                // Add the loading template.
                 layout.Children.Clear();
 
                 var repeatCount = GetRepeatCount(state, customState);
 
-                if (layout is Grid grid)
+                if (repeatCount == 1)
                 {
                     var s = new StackLayout();
 
-                    if(grid.RowDefinitions.Any())
-                        Grid.SetRowSpan(s, grid.RowDefinitions.Count);
+                    if (layout is Grid grid)
+                    {
+                        if (grid.RowDefinitions.Any())
+                            Grid.SetRowSpan(s, grid.RowDefinitions.Count);
 
-                    if(grid.ColumnDefinitions.Any())
-                        Grid.SetColumnSpan(s, grid.ColumnDefinitions.Count);
+                        if (grid.ColumnDefinitions.Any())
+                            Grid.SetColumnSpan(s, grid.ColumnDefinitions.Count);
+
+                        layout.Children.Add(s);
+
+                        _layoutIsGrid = true;
+                    }
+
+                    var view = CreateItemView(state, customState);
+
+                    if (view != null)
+                    {
+                        if (_layoutIsGrid)
+                            s.Children.Add(view);
+                        else
+                            layout.Children.Add(view);
+                    }
+                }
+                else
+                {
+                    // TODO: Somehow this doesn't repeat?
+                    // Internally in Xamarin.Forms we cannot add the same element to Children multiple times.
+                    // Even wrapping it in a new StateView doesn't do the trick though...
+                    var view = CreateItemView(state, customState);
+                    var s = new StackLayout();
+
+                    if (layout is Grid grid)
+                    {
+                        if (grid.RowDefinitions.Any())
+                            Grid.SetRowSpan(s, grid.RowDefinitions.Count);
+
+                        if (grid.ColumnDefinitions.Any())
+                            Grid.SetColumnSpan(s, grid.ColumnDefinitions.Count);
+                    }
+
+                    for (int i = 0; i < repeatCount; i++)
+                    {
+                        var stateView = new StateView
+                        {
+                            Content = (view as StateView).Content
+                        };
+
+                        s.Children.Add(stateView);
+                    }
 
                     layout.Children.Add(s);
-
-                    _layoutIsGrid = true;
-                }
-
-                for (int i = 0; i < repeatCount; i++)
-                {
-                    if (_layoutIsGrid)
-                    {
-                        if (layout.Children[0] is StackLayout stack)
-                        {
-                            var view = CreateItemView(state, customState);
-
-                            if (view != null)
-                            {
-                                stack.Children.Add(view);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        var view = CreateItemView(state, customState);
-
-                        if (view != null)
-                        {
-                            layout.Children.Add(view);
-                        }
-                    }
                 }
             }
         }
@@ -140,12 +155,6 @@ namespace Xamarin.Forms.StateSquid
 
             if (template != null)
             {
-                //var newView = new ContentView();
-                //newView.Content = template.Content;
-                //return newView;
-
-                // TODO: This only allows for a repeatcount of 1.
-                // Internally in Xamarin.Forms we cannot add the same element to Children multiple times.
                 return template;
             }
 
