@@ -31,7 +31,6 @@ namespace Xamarin.Forms.StateSquid
 
             // Put the original content back in.
             layout.Children.Clear();
-
             foreach (var item in _originalContent)
             {
                 layout.Children.Add(item);
@@ -65,49 +64,60 @@ namespace Xamarin.Forms.StateSquid
             {
                 _previousState = state;
 
-                // Add the loading template.
                 layout.Children.Clear();
 
                 var repeatCount = GetRepeatCount(state, customState);
 
-                if (layout is Grid grid)
+                if (repeatCount == 1)
                 {
                     var s = new StackLayout();
 
-                    if(grid.RowDefinitions.Any())
-                        Grid.SetRowSpan(s, grid.RowDefinitions.Count);
+                    if (layout is Grid grid)
+                    {
+                        if (grid.RowDefinitions.Any())
+                            Grid.SetRowSpan(s, grid.RowDefinitions.Count);
 
-                    if(grid.ColumnDefinitions.Any())
-                        Grid.SetColumnSpan(s, grid.ColumnDefinitions.Count);
+                        if (grid.ColumnDefinitions.Any())
+                            Grid.SetColumnSpan(s, grid.ColumnDefinitions.Count);
+
+                        layout.Children.Add(s);
+
+                        _layoutIsGrid = true;
+                    }
+
+                    var view = CreateItemView(state, customState);
+
+                    if (view != null)
+                    {
+                        if (_layoutIsGrid)
+                            s.Children.Add(view);
+                        else
+                            layout.Children.Add(view);
+                    }
+                }
+                else
+                {
+                    var template = GetRepeatTemplate(state, customState);
+                    var items = new List<int>();
+
+                    for (int i = 0; i < repeatCount; i++)
+                        items.Add(i);
+
+                    var s = new StackLayout();
+
+                    if (layout is Grid grid)
+                    {
+                        if (grid.RowDefinitions.Any())
+                            Grid.SetRowSpan(s, grid.RowDefinitions.Count);
+
+                        if (grid.ColumnDefinitions.Any())
+                            Grid.SetColumnSpan(s, grid.ColumnDefinitions.Count);
+                    }
+
+                    BindableLayout.SetItemTemplate(s, template);
+                    BindableLayout.SetItemsSource(s, items);
 
                     layout.Children.Add(s);
-
-                    _layoutIsGrid = true;
-                }
-
-                for (int i = 0; i < repeatCount; i++)
-                {
-                    if (_layoutIsGrid)
-                    {
-                        if (layout.Children[0] is StackLayout stack)
-                        {
-                            var view = CreateItemView(state, customState);
-
-                            if (view != null)
-                            {
-                                stack.Children.Add(view);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        var view = CreateItemView(state, customState);
-
-                        if (view != null)
-                        {
-                            layout.Children.Add(view);
-                        }
-                    }
                 }
             }
         }
@@ -133,6 +143,19 @@ namespace Xamarin.Forms.StateSquid
             return 1;
         }
 
+        private DataTemplate GetRepeatTemplate(State state, string customState)
+        {
+            var template = StateViews.FirstOrDefault(x => (x.StateKey == state && state != State.Custom) ||
+                           (state == State.Custom && x.CustomStateKey == customState));
+
+            if (template != null)
+            {
+                return template.RepeatTemplate;
+            }
+
+            return null;
+        }
+
         View CreateItemView(State state, string customState)
         {
             var template = StateViews.FirstOrDefault(x => (x.StateKey == state && state != State.Custom) ||
@@ -140,10 +163,6 @@ namespace Xamarin.Forms.StateSquid
 
             if (template != null)
             {
-                //var newView = new ContentView();
-                //newView.Content = template.Content;
-                //return newView;
-
                 // TODO: This only allows for a repeatcount of 1.
                 // Internally in Xamarin.Forms we cannot add the same element to Children multiple times.
                 return template;
