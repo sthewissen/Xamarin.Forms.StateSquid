@@ -88,6 +88,50 @@ StateSquid supports adding a skeleton loader like appearance using a `SkeletonVi
 
 <img src="https://github.com/sthewissen/Xamarin.Forms.StateSquid/blob/master/images/skeleton.gif?raw=true" width="400px" />
 
+## Repeating a template multiple times
+
+When loading multiple items of the same type it could be benificial if we can simply repeat a piece of XAML without having to copy paste it multiple times. This is where `RepeatCount` comes into play. By defining a `RepeatTemplate` we can repeat the same bit of XAML but only define it once. A sample of this process can be seen here.
+
+```
+<StackLayout state:StateLayout.CurrentState="{Binding CurrentState}" Grid.Row="0">
+     <state:StateLayout.StateViews>
+        <state:StateView StateKey="Loading" RepeatCount="3">
+            <state:StateView.RepeatTemplate>
+                <DataTemplate>
+                    <Grid Padding="20" HeightRequest="120">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="24" />
+                            <RowDefinition Height="20" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="14" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <state:SkeletonView CornerRadius="6" Grid.Row="0" Grid.ColumnSpan="2" HeightRequest="20" BackgroundColor="#cccccc" WidthRequest="120" />
+                        <state:SkeletonView CornerRadius="6" Grid.Row="1" Grid.ColumnSpan="3" HeightRequest="20" BackgroundColor="#cccccc" WidthRequest="200" />
+                        <BoxView Grid.Row="2" Grid.ColumnSpan="3" HeightRequest="1" BackgroundColor="#cccccc" Margin="0,8" />
+                        <Label Grid.Row="3" Grid.Column="0" HorizontalOptions="Center" Text="TOTAL ARTICLES" FontSize="10" TextColor="Gray" />
+                        <Label Grid.Row="3" Grid.Column="1" HorizontalOptions="Center" Text="PRICE" FontSize="10" TextColor="Gray" />
+                        <Label Grid.Row="3" Grid.Column="2" HorizontalOptions="Center" Text="BOXES" FontSize="10" TextColor="Gray" />
+                        <state:SkeletonView CornerRadius="6" Grid.Row="4" Grid.Column="0" HeightRequest="20" BackgroundColor="#cccccc" HorizontalOptions="Fill" />
+                        <state:SkeletonView CornerRadius="6" Grid.Row="4" Grid.Column="1" HeightRequest="20" BackgroundColor="#cccccc" HorizontalOptions="Fill" />
+                        <state:SkeletonView CornerRadius="6" Grid.Row="4" Grid.Column="2" HeightRequest="20" BackgroundColor="#cccccc" HorizontalOptions="Fill" />
+                    </Grid>
+                </DataTemplate>
+            </state:StateView.RepeatTemplate>
+        </state:StateView>
+    </state:StateLayout.StateViews>
+<StackLayout>
+```
+
+This code results in the following UI, where the template is repeated three times:
+
+<img src="https://github.com/sthewissen/Xamarin.Forms.StateSquid/blob/master/images/repeat.gif?raw=true" width="400px" />
+
 ## Property reference
 
 Your imagination is the only limit to what you can do. You can use this control to recreate your layout and make a skeleton loader our of it. Or you can just use a simple `Label` to indicate that your application is in a specific state. The following parts are what make this thing tick:
@@ -99,4 +143,5 @@ Your imagination is the only limit to what you can do. You can use this control 
 | `StateViews` | `StateLayout` | A list of `StateView` objects that contains a template per `State`. | |
 | `CustomStateKey` | `StateView` | Used to identify a `StateView` when using `State="Custom"` | |
 | `RepeatCount` | `StateView` | Repeats the specific `StateView` by a given amount. | Ideal to use to show a list of multiple items for e.g. a skeleton loader. |
+| `RepeatTemplate` | `StateView` | Defines the `DataTemplate` that gets repeated when using `RepeatCount`. | |
 | `State` | `StateView` | Used to identify a `StateView` to be shown for a specific `State`. | |
