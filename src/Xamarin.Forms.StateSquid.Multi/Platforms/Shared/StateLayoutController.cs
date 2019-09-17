@@ -146,7 +146,7 @@ namespace Xamarin.Forms.StateSquid
 
                 // TODO: This only allows for a repeatcount of 1.
                 // Internally in Xamarin.Forms we cannot add the same element to Children multiple times.
-                return template.Content;
+                return template;
             }
 
             return new Label() { Text = $"Template for {state.ToString()}{customState} not defined." };
