@@ -78,6 +78,16 @@ Besides the built-in state StateSquid also supports a `Custom` state. By setting
 </StackLayout>
 ```
 
+## Skeleton loading
+
+Skeleton screens in different shapes and sizes are found everywhere across the web and apps — anywhere us humans are forced to wait. They are usually perceived as being shorter in duration when compared against a blank screen and a spinner.
+
+>To mitigate focus on the loading process, versus the actual content that is loading, [Luke Wroblewski](https://www.lukew.com/ff/entry.asp?1797) introduced a new design pattern — the skeleton screen. In his own words, they are "essentially a blank version of a page into which information is gradually loaded." These visual placeholders were shown by Wroblewski to be light grey boxes that appeared instantly in areas where content had not yet completed loading.
+
+StateSquid supports adding a skeleton loader like appearance using a `SkeletonView`. This view is automatically animated to show a slight blinking state animation. You can see it in action in the image below. Simply add it to your loading template and size it accordingly. You can even use `CornerRadius` to make rounded variations of it.
+
+<img src="https://github.com/sthewissen/Xamarin.Forms.StateSquid/blob/master/images/skeleton.gif?raw=true" width="400px" />
+
 ## Property reference
 
 Your imagination is the only limit to what you can do. You can use this control to recreate your layout and make a skeleton loader our of it. Or you can just use a simple `Label` to indicate that your application is in a specific state. The following parts are what make this thing tick:
