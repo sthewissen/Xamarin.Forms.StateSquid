@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ContentPage NavigationPage.BackButtonTitle="" NavigationPage.HasNavigationBar="False" xmlns:state="clr-namespace:Xamarin.Forms.StateSquid" xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+<ContentPage NavigationPage.BackButtonTitle="" NavigationPage.HasNavigationBar="False" xmlns:state="clr-namespace:Xamarin.Forms.StateSquid;assembly=Xamarin.Forms.StateSquid"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
              ios:Page.UseSafeArea="true" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="StateSquidSample.Pages.MainPage">
     <Grid state:StateLayout.CurrentState="{Binding MainState}">
         <state:StateLayout.StateViews>

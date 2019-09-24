@@ -129,6 +129,10 @@
       <Project>{E132D47B-FBB8-4322-A70A-95ACC5EBE135}</Project>
       <Name>StateSquidSample</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\Xamarin.Forms.StateSquid.Multi\Xamarin.Forms.StateSquid.Multi.csproj">
+      <Project>{C4C3D081-DCA7-4869-B6A8-81520DF62688}</Project>
+      <Name>Xamarin.Forms.StateSquid.Multi</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\Poppins-Regular.ttf" />

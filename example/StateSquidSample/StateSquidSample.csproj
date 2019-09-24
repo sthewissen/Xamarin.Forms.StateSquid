@@ -21,23 +21,6 @@
     <Folder Include="PageModels\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\src\Xamarin.Forms.StateSquid.Multi\Platforms\Shared\StateView.cs">
-      <Link>StateView.cs</Link>
-    </Compile>
-    <Compile Include="..\..\src\Xamarin.Forms.StateSquid.Multi\Platforms\Shared\StateLayoutController.cs">
-      <Link>StateLayoutController.cs</Link>
-    </Compile>
-    <Compile Include="..\..\src\Xamarin.Forms.StateSquid.Multi\Platforms\Shared\StateLayout.cs">
-      <Link>StateLayout.cs</Link>
-    </Compile>
-    <Compile Include="..\..\src\Xamarin.Forms.StateSquid.Multi\Platforms\Shared\StateToBooleanConverter.cs">
-      <Link>StateToBooleanConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\..\src\Xamarin.Forms.StateSquid.Multi\Platforms\Shared\State.cs">
-      <Link>State.cs</Link>
-    </Compile>
-    <Compile Include="..\..\src\Xamarin.Forms.StateSquid.Multi\Platforms\Shared\SkeletonView.cs">
-      <Link>SkeletonView.cs</Link>
-    </Compile>
+    <ProjectReference Include="..\..\src\Xamarin.Forms.StateSquid.Multi\Xamarin.Forms.StateSquid.Multi.csproj" />
   </ItemGroup>
 </Project>
