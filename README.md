@@ -28,12 +28,12 @@ Each layout that you make state-aware using the `StateLayout` attached propertie
 ```
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-   xmlns:state="clr-namespace:Xamarin.Forms.StateSquid; assembly=Xamarin.Forms.StateSquid" 
+   xmlns:state="clr-namespace:Xamarin.Forms.StateSquid;assembly=Xamarin.Forms.StateSquid" 
    x:Class="SampleApp.MainPage">
 
    <Grid state:StateLayout.CurrentState="{Binding CurrentState}">
       <state:StateLayout.StateViews>
-         <state:StateView State="Loading">
+         <state:StateView StateKey="Loading">
             <Grid BackgroundColor="White">
                <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
                   <ActivityIndicator Color="#1abc9c" IsRunning="{Binding CurrentState, Converter={StaticResource StateToBooleanConverter}, ConverterParameter={x:Static state:State.Loading}}" />
