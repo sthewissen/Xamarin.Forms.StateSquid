@@ -5,7 +5,7 @@
 # Xamarin.Forms.StateSquid
 A collection of attached properties that let you specify state views for any of your existing layouts.
 
-[![Build status](https://sthewissen.visualstudio.com/StateSquid/_apis/build/status/StateSquid-CI)]() [![](https://img.shields.io/nuget/vpre/Xamarin.Forms.StateSquid.svg)](https://nuget.org/packages/Xamarin.Forms.StateSquid)
+[![Build Status](https://sthewissen.visualstudio.com/StateSquid/_apis/build/status/CI%20StateSquid%20YAML?branchName=master)](https://sthewissen.visualstudio.com/StateSquid/_build/latest?definitionId=41&branchName=master) [![](https://img.shields.io/nuget/vpre/Xamarin.Forms.StateSquid.svg)](https://nuget.org/packages/Xamarin.Forms.StateSquid)
 
 ## Why StateSquid?
 
