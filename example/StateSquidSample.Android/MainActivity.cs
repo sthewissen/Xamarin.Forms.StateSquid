@@ -6,6 +6,7 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using StateSquidSample.Droid;
+using EasyLoadingSample.Droid;
 
 namespace StateSquidSample.Droid
 {

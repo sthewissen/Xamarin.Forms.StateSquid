@@ -20,7 +20,8 @@ namespace Xamarin.Forms.StateSquid
 
         public static readonly BindableProperty CurrentStateProperty = BindableProperty.CreateAttached("CurrentState", typeof(State), typeof(Layout<View>), default(State), propertyChanged: (b, o, n) => OnCurrentStateChanged(b, (State)o, (State)n));
         public static readonly BindableProperty CurrentCustomStateKeyProperty = BindableProperty.CreateAttached("CurrentCustomStateKey", typeof(string), typeof(Layout<View>), default(string), propertyChanged: (b, o, n) => OnCurrentCustomStateKeyChanged(b, (string)o, (string)n));
-        
+        public static readonly BindableProperty AnimateProperty = BindableProperty.CreateAttached("Animate", typeof(bool), typeof(Layout<View>), true, propertyChanged: (b, o, n) =>  ((BindableObject)b).SetValue(AnimateProperty, n));
+
         public static IList<StateView> GetStateViews(BindableObject b)
         {
            return (IList<StateView>)b.GetValue(StateViewsProperty);
@@ -40,22 +41,33 @@ namespace Xamarin.Forms.StateSquid
         {
             b.SetValue(CurrentCustomStateKeyProperty, value);
         }
+       
 
         public static string GetCurrentCustomStateKey(BindableObject b)
         {
             return (string)b.GetValue(CurrentCustomStateKeyProperty);
         }
-    
+
+        public static void SetAnimate(BindableObject b, bool value)
+        {
+            b.SetValue(AnimateProperty, value);
+        }
+
+        public static bool GetAnimate(BindableObject b)
+        {
+            return (bool?)b.GetValue(AnimateProperty) ?? false;
+        }
+
         static void OnCurrentStateChanged(BindableObject bindable, State oldValue, State newValue)
         {
             // Swap out the current children for the Loading Template.
             if (oldValue != newValue && newValue != State.None && newValue != State.Custom)
             {
-                GetLayoutController(bindable).SwitchToTemplate(newValue, null);
+                GetLayoutController(bindable).SwitchToTemplate(newValue, null, GetAnimate(bindable));
             }
             else if (oldValue != newValue && newValue == State.None)
             {
-                GetLayoutController(bindable).SwitchToContent();
+                GetLayoutController(bindable).SwitchToContent(GetAnimate(bindable));
             }
         }
 
@@ -66,11 +78,11 @@ namespace Xamarin.Forms.StateSquid
             // Swap out the current children for the Loading Template.
             if (oldValue != newValue && state == State.Custom)
             {
-                GetLayoutController(bindable).SwitchToTemplate(newValue);
+                GetLayoutController(bindable).SwitchToTemplate(newValue, GetAnimate(bindable));
             }
             else if (oldValue != newValue && state == State.None)
             {
-                GetLayoutController(bindable).SwitchToContent();
+                GetLayoutController(bindable).SwitchToContent(GetAnimate(bindable));
             }
         }
 
@@ -78,5 +90,7 @@ namespace Xamarin.Forms.StateSquid
         {
             return (StateLayoutController)b.GetValue(LayoutControllerProperty);
         }
+
+        
     }
 }
