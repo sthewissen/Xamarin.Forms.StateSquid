@@ -89,8 +89,6 @@ namespace Xamarin.Forms.StateSquid
         static StateLayoutController GetLayoutController(BindableObject b)
         {
             return (StateLayoutController)b.GetValue(LayoutControllerProperty);
-        }
-
-        
+        }     
     }
 }

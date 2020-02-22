@@ -31,7 +31,7 @@ namespace StateSquidSample.PageModels
             SkeletonCommand = new Command(async (x) =>
             {
                 SkeletonState = State.Loading;
-                await Task.Delay(2000);
+                await Task.Delay(3000);
                 SkeletonState = State.None;
             });
 
