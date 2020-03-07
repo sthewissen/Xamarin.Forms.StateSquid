@@ -8,10 +8,6 @@
         Success,
         Error,
         Empty,
-        Custom,
-        NoInternet,
-        NoAccess,
-        ServerIsUnavailable,
-        Unauthorized,
+        Custom
     }
 }
