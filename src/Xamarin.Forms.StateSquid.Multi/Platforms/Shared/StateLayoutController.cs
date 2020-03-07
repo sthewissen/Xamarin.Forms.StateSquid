@@ -182,21 +182,11 @@ namespace Xamarin.Forms.StateSquid
         {
             if (animate && layout?.Children?.Count > 0)
             {
-                int duration = isHide ? 100 : 500 / layout.Children.Count;
-                uint uDuration = (uint)(duration > 1 ? duration : 1);
-
+                var tasks = new List<Task<bool>>();
                 foreach (var a in layout.Children)
-                    {
-                        if (isHide)
-                        {
-                            await a.FadeTo(0, uDuration);
-                        }
-                        else
-                        {
-                            a.Opacity = 0;
-                            await a.FadeTo(1, uDuration);
-                        }
-                    }
+                    tasks.Add(a.FadeTo(isHide ? 0 : 1, isHide ? 100u : 500u));
+
+                await Task.WhenAll(tasks);
             }
         }
     }
