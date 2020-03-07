@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Xamarin.Forms.StateSquid
 {
@@ -18,7 +19,7 @@ namespace Xamarin.Forms.StateSquid
             _layoutWeakReference = new WeakReference<Layout<View>>(layout);
         }
 
-        public void SwitchToContent()
+        public async void SwitchToContent(bool animate)
         {
             Layout<View> layout;
 
@@ -28,21 +29,24 @@ namespace Xamarin.Forms.StateSquid
             }
 
             _previousState = State.None;
+            await ChildrenFadeTo(layout, animate, true);
 
             // Put the original content back in.
             layout.Children.Clear();
             foreach (var item in _originalContent)
             {
+                item.Opacity = animate ? 0 : 1;
                 layout.Children.Add(item);
             }
+            await ChildrenFadeTo(layout, animate, false);
         }
 
-        public void SwitchToTemplate(string customState)
+        public void SwitchToTemplate(string customState, bool animate)
         {
-            SwitchToTemplate(State.Custom, customState);
+            SwitchToTemplate(State.Custom, customState, animate);
         }
 
-        public void SwitchToTemplate(State state, string customState)
+        public async void SwitchToTemplate(State state, string customState, bool animate)
         {
             Layout<View> layout;
 
@@ -64,13 +68,15 @@ namespace Xamarin.Forms.StateSquid
             {
                 _previousState = state;
 
+                await ChildrenFadeTo(layout, animate, true);
+
                 layout.Children.Clear();
 
                 var repeatCount = GetRepeatCount(state, customState);
 
                 if (repeatCount == 1)
                 {
-                    var s = new StackLayout();
+                    var s = new StackLayout { Opacity = animate ? 0 : 1 };
 
                     if (layout is Grid grid)
                     {
@@ -103,7 +109,7 @@ namespace Xamarin.Forms.StateSquid
                     for (int i = 0; i < repeatCount; i++)
                         items.Add(i);
 
-                    var s = new StackLayout();
+                    var s = new StackLayout { Opacity = animate ? 0 : 1 };
 
                     if (layout is Grid grid)
                     {
@@ -119,6 +125,7 @@ namespace Xamarin.Forms.StateSquid
 
                     layout.Children.Add(s);
                 }
+                await ChildrenFadeTo(layout, animate, false);
             }
         }
 
@@ -169,6 +176,18 @@ namespace Xamarin.Forms.StateSquid
             }
 
             return new Label() { Text = $"Template for {state.ToString()}{customState} not defined." };
+        }
+
+        private async Task ChildrenFadeTo(Layout<View> layout, bool animate, bool isHide)
+        {
+            if (animate && layout?.Children?.Count > 0)
+            {
+                var tasks = new List<Task<bool>>();
+                foreach (var a in layout.Children)
+                    tasks.Add(a.FadeTo(isHide ? 0 : 1, isHide ? 100u : 500u));
+
+                await Task.WhenAll(tasks);
+            }
         }
     }
 }
