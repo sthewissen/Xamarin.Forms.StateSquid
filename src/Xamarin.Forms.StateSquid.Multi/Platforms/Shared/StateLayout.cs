@@ -38,7 +38,7 @@ namespace Xamarin.Forms.StateSquid
             return (State)b.GetValue(CurrentStateProperty);
         }
 
-        public static void SetCurrentCustomStateKey(BindableObject b, State value)
+        public static void SetCurrentCustomStateKey(BindableObject b, string value)
         {
             b.SetValue(CurrentCustomStateKeyProperty, value);
         }
