@@ -1,4 +1,8 @@
-⚠ This package replaces my previous [EasyLoading package](https://github.com/sthewissen/Xamarin.Forms.EasyLoading). Updates to that package will not be made anymore. ⚠
+# Moved to the Xamarin Community Toolkit
+
+This project has been archived, as it has been integrated into the [Xamarin Community Toolkit](https://github.com/xamarin/XamarinCommunityToolkit). From there it can be maintained better by an evergrowing community of awesome contributors. The NuGet package itself is also deprecated from this point onwards. Please migrate over to the Xamarin Community Toolkit version when available.
+
+---
 
 <img src="https://github.com/sthewissen/Xamarin.Forms.StateSquid/blob/master/images/icon.png" width="150px" />
 
